@@ -1,6 +1,8 @@
 //package Application;
 import Application.Album;
 import Application.Song;
+
+import java.sql.SQLOutput;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,11 @@ public class Main {
         album2.addNewSongToAlbum("ek chatur naar",6.2);
         album2.addNewSongToAlbum("Mere Sapanon ki Rani",3.4);
 
+        List<Song> songs = new ArrayList<>();
+        songs.add(new Song("s1",1.4));
+        songs.add(new Song("s2",4.5));
+
+        Album album3 = new Album("new album",songs,"Anurag");
         List<Song> playList = new ArrayList<>();
 
         album1.addSongToPlayList(1,playList);
@@ -30,7 +37,66 @@ public class Main {
         album2.addSongToPlayList("Mere mehaboob qayamat",playList);
         album2.addSongToPlayList("neele neele ambar par",playList);
 
-        for(Song song:playList){
+       printMenu();
+
+       startSongs(playList);
+
+    }
+    public static void startSongs(List<Song>playlist){
+        int index = 0;
+        System.out.println("Now playing"+playlist.get(index).toString());
+
+        Scanner sc = new Scanner(System.in);
+        boolean continuePlayList = true;
+        while(true){
+            System.out.println("Enter your choice");
+            int choice = sc.nextInt();
+
+            switch(choice){
+                case 1 :
+                    if(index<playlist.size()) {
+                        index++;
+                    }else {
+                        index = 0;
+                    }
+                        System.out.println("Now playing"+playlist.get(index).toString());
+                    break;
+                case 2 :
+                    if(index==0)
+                        index = 0;
+                    else
+                        index--;
+                        System.out.println("Now playing"+playlist.get(index).toString());
+                     break;
+                case 3 :
+                    System.out.println("Now playing"+playlist.get(index).toString());
+                    break;
+                case 4 :
+                    printPlayList(playlist);
+                    break;
+                case 5 :
+                    printMenu();
+                    break;
+                case 6 :
+                    playlist.remove(index);
+
+                    //It will goto next Index
+                    if (index==playlist.size()) {
+                        index =0;
+                    }
+                   break;
+                case 7 :
+                    Collections.shuffle(playlist);
+                    break;
+                case 8 :
+                    continuePlayList = false;
+                    break;
+            }
+        }
+    }
+
+    public static void printPlayList(List<Song> playList){
+        for(Song song :playList) {
             System.out.println(song.toString());
         }
     }
